@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        h1 {
+            color: #333;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        input {
+            padding: 10px;
+            margin-bottom: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px;
+            width: 100%;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Weather App</h1>
+    <div class="container">
+        <input type="text" id="location" placeholder="Enter city or latitude,longitude">
+        <button onclick="getWeather()">Get Weather</button>
+        <div class="result" id="result"></div>
+    </div>
+    <script>
+        async function getWeather() {
+            const location = document.getElementById('location').value;
+            const resultDiv = document.getElementById('result');
+
+            // Clear previous results
+            resultDiv.innerHTML = '';
+
+            try {
+                const response = await fetch(`http://k8s-default-weathera-c115870c6b-4b4a7f72f2840f7e.elb.us-east-2.amazonaws.com/weather?city=${location}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch weather data');
+                }
+                const data = await response.json();
+                resultDiv.innerHTML = `
+                    <p>Temperature: ${data.temperature}°C</p>
+                    <p>Wind Speed: ${data.wind_speed} km/h</p>
+                    <p>Humidity: ${data.humidity}%</p>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
