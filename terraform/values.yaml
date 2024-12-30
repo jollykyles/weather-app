@@ -1,0 +1,10 @@
+clusterName: weather-cluster
+vpcId: vpc-0420f341d6543f44a
+subnetIds:
+  - subnet-043b60092609d4cae
+  - subnet-0f37dc2177c07af1e
+  - subnet-051bf6e93be1fe3c9
+serviceAccount:
+  create: false
+  name: aws-load-balancer-controller
+
