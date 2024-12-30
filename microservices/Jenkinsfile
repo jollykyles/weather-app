@@ -1,0 +1,28 @@
+pipeline {
+    agent any
+    stages {
+        stage('Clone') {
+            steps {
+                git 'https://github.com/jollykyles/weather-app.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'docker build -t jollykyles/weather-service:latest .'
+                sh 'docker build -t jollykyles/weather-app:latest .'
+            }
+        }
+        stage('Push') {
+            steps {
+                sh 'docker push jollykyles/weather-service:latest'
+                sh 'docker push jollykyles/weather-app:latest'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                kubectl 'apply -f weather-app-deployment.yaml'
+                kubectl 'apply -f weather-app-service.yaml'
+            }
+        }
+    }
+}

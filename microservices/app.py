@@ -5,9 +5,13 @@ app = FastAPI()
 
 BASE_URL = "https://api.open-meteo.com/v1/forecast"
 
-@app.get("/")
-def read_root():
-    return {"message": "Welcome to the Weather API!"}
+from flask import Flask, request, jsonify, send_from_directory
+
+app = Flask(__name__)
+
+@app.route('/')
+def serve_index():
+    return send_from_directory('.', 'index.html')
 
 @app.get("/weather")
 def get_weather(lat: float, lon: float):
