@@ -1,20 +1,15 @@
-output "kubeconfig" {
-  value = module.eks.cluster_id != null && module.eks.cluster_endpoint != null && module.eks.cluster_certificate_authority_data != null ? templatefile("kubeconfig.tpl", {
-    cluster_name = module.eks.cluster_id
-    endpoint     = module.eks.cluster_endpoint
-    certificate  = module.eks.cluster_certificate_authority_data
-  }) : "EKS cluster not created successfully"
-}
-
-output "cluster_certificate_authority_data" {
-  value = module.eks.cluster_certificate_authority_data
-}
-
-output "cluster_id" {
+output "eks_cluster_name" {
   value = module.eks.cluster_id
 }
 
-output "cluster_endpoint" {
+output "eks_cluster_endpoint" {
   value = module.eks.cluster_endpoint
 }
 
+output "eks_cluster_certificate_authority" {
+  value = module.eks.cluster_certificate_authority_data
+}
+
+output "eks_cluster_arn" {
+  value = module.eks.cluster_arn
+}
